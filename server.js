@@ -25,8 +25,8 @@ app.get('/', (req, res) => {
 });
 
 // API 라우터
-app.use('/api/nodemailer', nodemailerRouter);
 app.use('/api/user', userRouter);
+app.use('/api/nodemailer', nodemailerRouter);
 
 db.sequelize
   // alter: true -> 컬럼 변경만 적용 // 예) 실서비스 환경

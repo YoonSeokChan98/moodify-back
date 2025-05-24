@@ -44,7 +44,7 @@ export const sendAuthNumberEmail = async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-    res.json({ result: true, message: `${userEmail}로 인증번호 발송 성공했습니다.` });
+    res.json({ result: true, authNumber: authNumber, message: `${userEmail}로 인증번호 발송 성공했습니다.` });
   } catch (error) {
     console.log(`${req.body.userEmail}로 전송 실패`);
     res.json({ result: false, message: '서버오류', error: error.message });
