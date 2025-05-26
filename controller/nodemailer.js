@@ -25,7 +25,7 @@ export const sendAuthNumberEmail = async (req, res) => {
     // 가입된 이메일 중복 체크
     const findUserEmail = await User.findOne({ where: { userEmail: userEmail } });
     if (findUserEmail) {
-      return res.json({ result: false, message: '이미 존재하는 이메일 입니다.' });
+      return res.json({ result: false, message: '이미 존재하는 회원의 이메일 입니다.' });
     }
 
     // 이메일 인증용 6자리 난수 생성

@@ -31,7 +31,7 @@ app.use('/api/nodemailer', nodemailerRouter);
 db.sequelize
   // alter: true -> 컬럼 변경만 적용 // 예) 실서비스 환경
   // force: true -> 테이블 전체 삭제 후 새로 생성 // 개발 환경
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
     console.log('데이터베이스 연결 성공');
     app.listen(PORT, () => {

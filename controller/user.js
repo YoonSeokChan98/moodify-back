@@ -7,20 +7,14 @@ const { User } = db;
 export const signup = async (req, res) => {
   try {
     const { userName, userEmail, userPassword } = req.body;
-
-    // 비밀번호 암호화
     const encryptionPassword = await bcrypt.hash(userPassword, 10);
-    const newUser = await User.create({
+    await User.create({
       userName,
       userEmail,
       userPassword: encryptionPassword,
     });
 
-    res.json({
-      result: true,
-      data: newUser, // 회원가입과 동시에 로그인 하는게 필요할까?
-      message: '회원가입 성공',
-    });
+    res.json({ result: true, message: '회원가입 성공' });
   } catch (error) {
     res.json({ result: false, message: '서버오류', error: error.message });
   }
@@ -37,6 +31,7 @@ export const login = async (req, res) => {
         // 유저 정보
         const userInfo = {
           id: findUser.id,
+          name: findUser.userName,
           email: findUser.userEmail,
           role: findUser.userRole,
           membershipStatus: findUser.userMembershipStatus,
