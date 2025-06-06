@@ -5,6 +5,8 @@ import db from './model/index.js';
 
 import userRouter from './router/user.js';
 import nodemailerRouter from './router/nodemailer.js';
+// import musicRouter from './router/music.js';
+import emotionRouter from './router/emotion.js';
 
 dotenv.config();
 
@@ -27,6 +29,8 @@ app.get('/', (req, res) => {
 // API 라우터
 app.use('/api/user', userRouter);
 app.use('/api/nodemailer', nodemailerRouter);
+app.use('/api/emotion', emotionRouter);
+// app.use('/api/music', musicRouter);
 
 db.sequelize
   // alter: true -> 컬럼 변경만 적용 // 예) 실서비스 환경
