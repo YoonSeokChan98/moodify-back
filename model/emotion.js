@@ -50,13 +50,13 @@ const EmotionModel = (sequelize) => {
         model: 'users',
         key: 'id',
       },
-    }
+    },
   });
-  
+
   // 관계 설정
   Emotion.associate = (db) => {
-    // Emotion : User (N:1)
     Emotion.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'id' });
+    Emotion.hasOne(db.Board, { foreignKey: 'emotionId', sourceKey: 'id' });
   };
   return Emotion;
 };

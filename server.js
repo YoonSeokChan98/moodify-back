@@ -5,8 +5,8 @@ import db from './model/index.js';
 
 import userRouter from './router/user.js';
 import nodemailerRouter from './router/nodemailer.js';
-// import musicRouter from './router/music.js';
 import emotionRouter from './router/emotion.js';
+import boardRouter from './router/board.js';
 
 dotenv.config();
 
@@ -26,11 +26,13 @@ app.get('/', (req, res) => {
   res.send('서버 연결 성공!');
 });
 
+app.use('/uploads', express.static('uploads'));
+
 // API 라우터
 app.use('/api/user', userRouter);
 app.use('/api/nodemailer', nodemailerRouter);
 app.use('/api/emotion', emotionRouter);
-// app.use('/api/music', musicRouter);
+app.use('/api/board', boardRouter);
 
 db.sequelize
   // alter: true -> 컬럼 변경만 적용 // 예) 실서비스 환경

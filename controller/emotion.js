@@ -23,3 +23,12 @@ export const addEmotion = async (req, res) => {
     res.json({ result: false, message: '서버오류', error: error.message });
   }
 };
+
+export const writeEmotionDiary = async (req, res) => {
+  try {
+    const {} = req.body;
+    console.log('req 데이터', req.body);
+  } catch (error) {
+    res.json({ result: false, message: '서버오류', error: error.message });
+  }
+};
