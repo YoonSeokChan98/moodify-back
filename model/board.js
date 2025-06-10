@@ -8,8 +8,20 @@ const BoardModel = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    imageUrl: {
+    question: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    content: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    visibilityStatus: {
+      type: DataTypes.ENUM('public', 'private'),
       allowNull: false,
     },
     emotionId: {

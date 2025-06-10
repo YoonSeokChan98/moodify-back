@@ -1,5 +1,5 @@
 import express from 'express';
-import { WriteBoard, uploadImageFolder } from '../controller/board.js';
+import { WriteBoard, getAllBoard, uploadImageFolder } from '../controller/board.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -45,6 +45,7 @@ const upload = multer({
 // 이미지 업로드
 router.post('/upload-image-folder', upload.single('file'), uploadImageFolder);
 router.post('/write-board', WriteBoard);
+router.get('/get-all-board', getAllBoard);
 
 
 
