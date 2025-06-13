@@ -1,7 +1,6 @@
 import express from 'express';
-import { WriteBoard, getAllBoard, uploadImageFolder } from '../controller/board.js';
+import { WriteBoard, getAllBoard, getOneBoard, uploadImageFolder } from '../controller/board.js';
 import multer from 'multer';
-import path from 'path';
 import fs from 'fs';
 
 const router = express.Router();
@@ -46,7 +45,6 @@ const upload = multer({
 router.post('/upload-image-folder', upload.single('file'), uploadImageFolder);
 router.post('/write-board', WriteBoard);
 router.get('/get-all-board', getAllBoard);
-
-
+router.get('/get-one-board', getOneBoard);
 
 export default router;
