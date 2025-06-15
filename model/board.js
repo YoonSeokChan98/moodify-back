@@ -17,11 +17,16 @@ const BoardModel = (sequelize) => {
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(500),
       allowNull: false,
     },
     visibilityStatus: {
       type: DataTypes.ENUM('public', 'private'),
+      allowNull: false,
+    },
+    removeStatus: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false,
     },
     emotionId: {

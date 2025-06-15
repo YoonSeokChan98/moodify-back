@@ -1,5 +1,5 @@
 import express from 'express';
-import { WriteBoard, getAllBoard, getOneBoard, uploadImageFolder } from '../controller/board.js';
+import { WriteBoard, getAllBoard, getOneBoard, removeBoard, updateBoard, uploadImageFolder } from '../controller/board.js';
 import multer from 'multer';
 import fs from 'fs';
 
@@ -46,5 +46,7 @@ router.post('/upload-image-folder', upload.single('file'), uploadImageFolder);
 router.post('/write-board', WriteBoard);
 router.get('/get-all-board', getAllBoard);
 router.get('/get-one-board', getOneBoard);
+router.patch('/update-board', updateBoard);
+router.patch('/remove-board', removeBoard);
 
 export default router;
