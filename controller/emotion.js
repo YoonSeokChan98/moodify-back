@@ -31,7 +31,6 @@ export const getAllUserEmotion = async (req, res) => {
     if (!findUser) return res.json({ result: false, message: '유저가 존재하지 않습니다.' });
     const findAllEmotion = await Emotion.findAll({ where: { userId: findUser.id } });
     res.json({ result: true, data: findAllEmotion, message: '유저가 분석한 감정데이터 전체를 불러왔습니다.' });
-    console.log('req 데이터', req.body);
   } catch (error) {
     res.json({ result: false, message: '서버오류', error: error.message });
   }
