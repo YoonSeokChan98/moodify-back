@@ -58,6 +58,8 @@ export const sendAuthNumberPasswordReset = async (req, res) => {
   try {
     const { userEmail } = req.body;
 
+    const findUserEmail = await User.findOne({ where: { userEmail , userStatus: 'active'} });
+    if (!findUserEmail) return res.json({ result: false, message: '가입된 회원이 아니거나 탈퇴한 회원입니다.' });
     // 이메일 인증용 6자리 난수 생성
     const authNumber = Math.floor(Math.random() * 888888) + 111111;
     const mailOptions = {
