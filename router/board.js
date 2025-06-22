@@ -4,6 +4,7 @@ import {
   getAllBoard,
   getAllUserBoard,
   getOneBoard,
+  likedBoardMinus,
   likedBoardPlus,
   removeBoard,
   updateBoard,
@@ -59,5 +60,6 @@ router.get('/get-one-board', getOneBoard);
 router.patch('/update-board', updateBoard);
 router.patch('/remove-board', removeBoard);
 router.post('/liked-board-plus', likedBoardPlus);
+router.post('/liked-board-minus', likedBoardMinus);
 
 export default router;

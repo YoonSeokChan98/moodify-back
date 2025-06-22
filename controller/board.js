@@ -75,7 +75,7 @@ export const getAllBoard = async (req, res) => {
   try {
     const response = await Board.findAll({
       order: [['createdAt', 'DESC']],
-      include: [{ model: User }, { model: Emotion }],
+      include: [{ model: User }, { model: LikedBoard }, { model: Emotion }],
     });
     res.json({ result: true, data: response, message: '게시글을 최신순으로 가져왔습니다.' });
   } catch (error) {
@@ -164,8 +164,20 @@ export const likedBoardPlus = async (req, res) => {
       userId: findUser.id,
       boardId: findBoard.id,
     });
-    console.log('🚀 ~ likedBoardPlus ~ response:', response);
-    res.json({ result: true, data:response, message: '성공' });
+    res.json({ result: true, data: response, message: '성공' });
+  } catch (error) {
+    res.json({ result: false, message: '서버오류', error: error.message });
+  }
+};
+export const likedBoardMinus = async (req, res) => {
+  try {
+    const { idData } = req.body;
+    const findBoard = await Board.findOne({ where: { id: idData.boardId } });
+
+    const findUser = await User.findOne({ where: { id: idData.userId } });
+
+    const response = await LikedBoard.destroy({ where: { userId: findUser.id, boardId: findBoard.id } });
+    res.json({ result: true, data: response, message: '성공' });
   } catch (error) {
     res.json({ result: false, message: '서버오류', error: error.message });
   }
