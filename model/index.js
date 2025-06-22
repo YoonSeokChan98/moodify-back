@@ -5,6 +5,7 @@ import UserModel from './user.js';
 import EmotionModel from './emotion.js';
 import ImageModel from './image.js';
 import BoardModel from './board.js';
+import LikedBoardModel from './likedBoard.js';
 
 const env = process.env.NODE_ENV || 'development';
 const config = configFile[env];
@@ -14,10 +15,12 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
 // 유저 모델
 db.User = UserModel(sequelize);
-// 감정 모델
-db.Emotion = EmotionModel(sequelize);
 // 게시글 모델
 db.Board = BoardModel(sequelize);
+// 좋아요 모델
+db.LikedBoard = LikedBoardModel(sequelize);
+// 감정 모델
+db.Emotion = EmotionModel(sequelize);
 // 이미지 모델
 db.Image = ImageModel(sequelize);
 

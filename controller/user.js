@@ -4,7 +4,7 @@ import db from '../model/index.js';
 
 const { User } = db;
 
-const findOneUser = async (userId) => {
+export const findOneUser = async (userId) => {
   const user = await User.findOne({ where: { id: userId, userStatus: 'active' } });
   const UserInfo = {
     userId: user.id,
@@ -97,7 +97,6 @@ export const updateUserInfo = async (req, res) => {
     const token = jwt.sign({ user: jwtToken }, process.env.JWT_ACCESS_SECRET, {
       expiresIn: process.env.JWT_ACCESS_LIFETIME,
     });
-    console.log('🚀 ~ updateUserInfo ~ reFindUser:', reFindUser);
     res.json({ result: true, data: reFindUser, token: token, message: '회원정보 수정 성공' });
   } catch (error) {
     res.json({ result: false, message: '서버오류', error: error.message });

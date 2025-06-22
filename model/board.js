@@ -24,16 +24,21 @@ const BoardModel = (sequelize) => {
       type: DataTypes.ENUM('public', 'private'),
       allowNull: false,
     },
+    liked: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false,
+    },
     removeStatus: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: false,
     },
-    emotionId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'emotions',
+        model: 'users',
         key: 'id',
       },
       onDelete: 'CASCADE',
@@ -41,9 +46,16 @@ const BoardModel = (sequelize) => {
     },
   });
 
+
   Board.associate = (db) => {
-    Board.belongsTo(db.Emotion, { foreignKey: 'emotionId', targetKey: 'id' });
+    // 1대1
+    Board.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'id' });
+    // 1대1
+    Board.hasOne(db.Emotion, { foreignKey: 'boardId', sourceKey: 'id' });
+    // 1대다
     Board.hasMany(db.Image, { foreignKey: 'boardId', sourceKey: 'id' });
+    // 1대다
+    Board.hasMany (db.LikedBoard, { foreignKey: 'boardId', sourceKey: 'id' });
   };
 
   return Board;

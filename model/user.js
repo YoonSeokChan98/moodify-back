@@ -43,10 +43,11 @@ const UserModel = (sequelize) => {
     },
   });
 
-    // 관계 설정
-    User.associate = (db) => {
-      User.hasMany(db.Emotion, { foreignKey: 'userId', sourceKey: 'id' });
-    };
+  // 관계 설정
+  User.associate = (db) => {
+    User.hasMany(db.Board, { foreignKey: 'userId', sourceKey: 'id' });
+    User.hasMany(db.LikedBoard, { foreignKey: 'userId', sourceKey: 'id' });
+  };
   return User;
 };
 
