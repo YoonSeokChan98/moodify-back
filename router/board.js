@@ -3,6 +3,7 @@ import {
   WriteBoard,
   getAllBoard,
   getAllUserBoard,
+  getMyAllBoard,
   getOneBoard,
   likedBoardMinus,
   likedBoardPlus,
@@ -61,5 +62,6 @@ router.patch('/update-board', updateBoard);
 router.patch('/remove-board', removeBoard);
 router.post('/liked-board-plus', likedBoardPlus);
 router.post('/liked-board-minus', likedBoardMinus);
+router.get('/get-my-all-board', getMyAllBoard);
 
 export default router;

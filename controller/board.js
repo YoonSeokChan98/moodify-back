@@ -182,3 +182,19 @@ export const likedBoardMinus = async (req, res) => {
     res.json({ result: false, message: '서버오류', error: error.message });
   }
 };
+
+export const getMyAllBoard = async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const findUser = await findOneUser(userId);
+    if (!findUser) return res.json({ result: false, message: '가입된 회원이 아니거나 탈퇴한 회원입니다.' });
+    const findUserAllBoard = await Board.findAll({
+      where: { userId: findUser.userId },
+      order: [['createdAt', 'DESC']],
+      include: [{ model: User }, { model: Emotion }, { model: LikedBoard }],
+    });
+    res.json({ result: true, data: findUserAllBoard, message: '성공' });
+  } catch (error) {
+    res.json({ result: false, message: '서버오류', error: error.message });
+  }
+};
