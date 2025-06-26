@@ -1,5 +1,14 @@
 import express from 'express';
-import { signup, login, getOneUserInfo, updateUserInfo, removeUser, updateUserPassword, resetUserPassword } from '../controller/user.js';
+import {
+  signup,
+  login,
+  getOneUserInfo,
+  updateUserInfo,
+  removeUser,
+  updateUserPassword,
+  resetUserPassword,
+  // userMembershipChange,
+} from '../controller/user.js';
 
 const router = express.Router();
 
@@ -10,5 +19,6 @@ router.patch('/update-user-info', updateUserInfo);
 router.patch('/remove-user', removeUser);
 router.patch('/update-user-password', updateUserPassword);
 router.patch('/reset-user-password', resetUserPassword);
+// router.patch('/user-membership-change', userMembershipChange);
 
 export default router;

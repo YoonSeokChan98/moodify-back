@@ -50,6 +50,8 @@ const EmotionModel = (sequelize) => {
         model: 'boards',
         key: 'id',
       },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
   });
 

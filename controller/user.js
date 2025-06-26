@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import db from '../model/index.js';
 
-const { User } = db;
+const { User, Membership } = db;
 
 export const findOneUser = async (userId) => {
   const user = await User.findOne({ where: { id: userId, userStatus: 'active' } });
@@ -37,6 +37,7 @@ export const login = async (req, res) => {
   try {
     const { userEmail, userPassword } = req.body;
     const findUser = await User.findOne({ where: { userEmail, userStatus: 'active' } });
+    const findMembership = await Membership.findOne({ where: { userId: findUser.id } });
     if (findUser) {
       const decryptionPassword = await bcrypt.compare(userPassword, findUser.userPassword);
       if (decryptionPassword) {
@@ -46,7 +47,7 @@ export const login = async (req, res) => {
           name: findUser.userName,
           email: findUser.userEmail,
           role: findUser.userRole,
-          membershipStatus: findUser.userMembershipStatus,
+          membershipStatus: findMembership,
         };
 
         // 유저 토큰
@@ -168,3 +169,17 @@ export const resetUserPassword = async (req, res) => {
     res.json({ result: false, message: '서버오류', error: error.message });
   }
 };
+
+// 유저 멤버십 상태 바꾸기
+// export const userMembershipChange = async (req, res) => {
+//   try {
+//     const { userId, membership } = req.body;
+//     const findUser = await User.findOne({ where: { id: userId } });
+//     if (!findUser) return res.json({ result: false, message: '가입된 회원이 아니거나 탈퇴한 회원입니다.' });
+//     const response = await User.update({ userMembershipStatus: membership }, { where: { id: userId } });
+//     console.log('🚀 ~ userMembershipChange ~ response:', response);
+//     res.json({ result: true, message: `성공: ${response}` });
+//   } catch (error) {
+//     res.json({ result: false, message: '서버오류', error: error.message });
+//   }
+// };

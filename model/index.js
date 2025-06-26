@@ -6,6 +6,8 @@ import EmotionModel from './emotion.js';
 import ImageModel from './image.js';
 import BoardModel from './board.js';
 import LikedBoardModel from './likedBoard.js';
+import PaymentModel from './payment.js';
+import MembershipModel from './membership.js';
 
 const env = process.env.NODE_ENV || 'development';
 const config = configFile[env];
@@ -15,6 +17,10 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
 // 유저 모델
 db.User = UserModel(sequelize);
+// 결제 모델
+db.Payment = PaymentModel(sequelize);
+// 멤버십 모델
+db.Membership = MembershipModel(sequelize);
 // 게시글 모델
 db.Board = BoardModel(sequelize);
 // 좋아요 모델

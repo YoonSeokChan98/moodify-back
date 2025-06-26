@@ -36,17 +36,19 @@ const UserModel = (sequelize) => {
       allowNull: false,
     },
     // 유료 구독 가입 상태
-    userMembershipStatus: {
-      type: DataTypes.ENUM('basic', 'premium'),
-      defaultValue: 'basic',
-      allowNull: false,
-    },
+    // userMembershipStatus: {
+    //   type: DataTypes.ENUM('basic', 'premium'),
+    //   defaultValue: 'basic',
+    //   allowNull: false,
+    // },
   });
 
   // 관계 설정
   User.associate = (db) => {
     User.hasMany(db.Board, { foreignKey: 'userId', sourceKey: 'id' });
     User.hasMany(db.LikedBoard, { foreignKey: 'userId', sourceKey: 'id' });
+    User.hasMany(db.Payment, { foreignKey: 'userId', sourceKey: 'id' });
+    User.hasOne(db.Membership, { foreignKey: 'userId', sourceKey: 'id' });
   };
   return User;
 };

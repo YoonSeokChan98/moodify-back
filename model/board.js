@@ -24,11 +24,6 @@ const BoardModel = (sequelize) => {
       type: DataTypes.ENUM('public', 'private'),
       allowNull: false,
     },
-    liked: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-      allowNull: false,
-    },
     removeStatus: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
