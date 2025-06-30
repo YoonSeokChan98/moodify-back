@@ -1,7 +1,51 @@
 import db from '../model/index.js';
 import { findOneUser } from './user.js';
+import AWS from 'aws-sdk';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const { User, Emotion, Board, LikedBoard } = db;
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  region: process.env.AWS_REGION,
+});
+
+export const uploadImageToS3 = async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) return res.json({ result: false, message: '파일이 존재하지 않습니다.' });
+
+    const fileName = `images/${Date.now()}-${file.originalName}`;
+
+    const uploadParams = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: fileName,
+      Body: file.buffer,
+      ContentType: file.mimetype,
+      ACL: 'public-read',
+    };
+
+    const uploadResult = await s3.upload(uploadParams).promise();
+
+    console.log('S3 업로드 성공: ', uploadResult.Location);
+
+    res.json({
+      result: true,
+      data: {
+        url: uploadResult.Location,
+        fileName: fileName,
+        originalName: file.originalName,
+        size: file.size,
+        mimetype: file.mimetype,
+      },
+      message: 'S3 업로드 성공!',
+    });
+  } catch (error) {
+    res.json({ result: false, message: '서버오류', error: error.message });
+  }
+};
 
 export const uploadImageFolder = (req, res) => {
   try {

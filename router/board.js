@@ -9,28 +9,38 @@ import {
   likedBoardPlus,
   removeBoard,
   updateBoard,
-  uploadImageFolder,
+  // uploadImageFolder,
+  uploadImageToS3,
 } from '../controller/board.js';
 import multer from 'multer';
-import fs from 'fs';
+// import fs from 'fs';
+import AWS from 'aws-sdk';
+import dotenv from "dotenv";
 
+dotenv.config();
 const router = express.Router();
 
-// 저장 경로 지정 (uploads/images 폴더 없으면 생성)
-const uploadPath = 'uploads/images';
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
-    cb(null, uniqueName);
-  },
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  region: process.env.AWS_REGION,
 });
+const storage = multer.memoryStorage();
+
+// 저장 경로 지정 (uploads/images 폴더 없으면 생성) // local 환경 세팅
+// const uploadPath = 'uploads/images';
+// if (!fs.existsSync(uploadPath)) {
+//   fs.mkdirSync(uploadPath, { recursive: true });
+// }
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, uploadPath);
+//   },
+//   filename: function (req, file, cb) {
+//     const uniqueName = `${Date.now()}-${file.originalname}`;
+//     cb(null, uniqueName);
+//   },
+// });
 
 // 파일 필터링 (이미지만 허용)
 const fileFilter = (req, file, cb) => {
@@ -53,7 +63,7 @@ const upload = multer({
 });
 
 // 이미지 업로드
-router.post('/upload-image-folder', upload.single('file'), uploadImageFolder);
+router.post('/upload-image-folder', upload.single('file'), uploadImageToS3);
 router.post('/write-board', WriteBoard);
 router.get('/get-all-board', getAllBoard);
 router.get('/get-all-user-board', getAllUserBoard);

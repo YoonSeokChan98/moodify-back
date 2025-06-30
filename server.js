@@ -1,7 +1,8 @@
 import express from 'express';
+import db from './model/index.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import db from './model/index.js';
+import config from './config/config.js';
 
 import userRouter from './router/user.js';
 import nodemailerRouter from './router/nodemailer.js';
@@ -12,11 +13,16 @@ import membershipRouter from './router/membership.js';
 
 dotenv.config();
 
+const env = process.env.NODE_ENV || 'development';
+const currentConfig = config[env]; // 환경에 맞는 설정 사용
+
 const app = express();
-const PORT = process.env.LOCAL_PORT;
+const HOST = currentConfig.serverHost;
+const PORT = currentConfig.serverPort;
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  // origin: 'https://moodify-front.vercel.app',
+  origin: 'https://localhost:3000',
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
@@ -46,7 +52,11 @@ db.sequelize
   .then(() => {
     console.log('데이터베이스 연결 성공');
     app.listen(PORT, () => {
-      console.log(`http://localhost:${PORT}`);
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`개발 환경 / 서버 실행: http://${HOST}:${PORT}`);
+      } else if (process.env.NODE_ENV === 'production') {
+        console.log(`서버 배포 환경 / 서버 실행: http://${HOST}:${PORT}`);
+      }
     });
   })
   .catch((err) => {
