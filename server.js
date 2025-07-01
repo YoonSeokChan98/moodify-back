@@ -21,7 +21,7 @@ const HOST = currentConfig.serverHost;
 const PORT = currentConfig.serverPort;
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://localhost:3000', 'https://moodify-front.vercel.app'],
+  origin: 'https://moodify-front.vercel.app',
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
