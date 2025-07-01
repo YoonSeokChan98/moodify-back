@@ -21,7 +21,11 @@ const HOST = currentConfig.serverHost;
 const PORT = currentConfig.serverPort;
 
 const corsOptions = {
-  origin: ['https://moodify-front.vercel.app','http://moodify-front.vercel.app'],
+  origin: [
+    'https://moodify-front-n2fz.vercel.app',
+    'http://moodify-front-n2fz.vercel.app',
+    'http://localhost:3000', // 개발용
+  ],
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
